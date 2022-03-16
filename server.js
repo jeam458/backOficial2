@@ -90,6 +90,7 @@ var tipoPartes = require('./routes/tipoparte')
 var actoprocesal = require('./routes/actosprocesales')
 var expediente = require('./routes/expediente')
 var legajo = require('./routes/legajo');
+var explegajo = require('./routes/explegajos')
 var users = require('./routes/users');
 
 var app = express();
@@ -118,6 +119,7 @@ app.use('/parte', tipoPartes);
 app.use('/',actoprocesal);
 app.use('/archivo',expediente);
 app.use('/archivo',legajo);
+app.use('/archivo',explegajo);
 
 /*
  |--------------------------------------------------------------------------

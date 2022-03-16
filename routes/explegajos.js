@@ -7,14 +7,14 @@ var mongoose = require('mongoose');
 var ExpedienteLegajos = mongoose.model('ExpedienteLegajos');
 var LegajoArchivos = mongoose.model('LegajoArchivos');
 
-router.get('/legajos/:Expediente', function(req,res,next){
+router.get('/expedientes/:Expediente', function(req,res,next){
     ExpedienteLegajos.find({"IdExpediente":req.params.Expediente},function(err, legajos){
         if (err) { return next(err) }
         res.json(legajos)
     })
 })
 
-router.get('/Expedientes/:Legajos', function(req,res,next){
+router.get('/legajos/:Legajos', function(req,res,next){
     ExpedienteLegajos.find({"IdLegajo":req.params.Legajos},function(err, expedientes){
         if (err) { return next(err) }
         res.json(expedientes)
@@ -37,14 +37,14 @@ router.delete('/expleg/:id', function(req, res) {
 })
 
 
-router.get('/Legajos/:Archivo', function(req,res,next){
+router.get('/legajosarchivo/:Archivo', function(req,res,next){
     LegajoArchivos.find({"IdArchivo":req.params.Archivo},function(err, Archivos){
         if (err) { return next(err) }
         res.json(Archivos)
     })
 })
 
-router.post('/legarchivo', function(req,res,next){
+router.post('/legajoarchivo', function(req,res,next){
     var expleg = new LegajoArchivos(req.body);
     expleg.save(function(err, expleg){
         if (err) { return next(err) }
@@ -52,7 +52,7 @@ router.post('/legarchivo', function(req,res,next){
     })
 })
 
-router.delete('/legarchivo/:id', function(req, res) {
+router.delete('/legajoarchivo/:id', function(req, res) {
     LegajoArchivos.findByIdAndRemove(req.params.id, function(err) {
         if (err) { res.send(err) }
         res.json({ message: 'la relación se ha eliminado' });
@@ -60,5 +60,5 @@ router.delete('/legarchivo/:id', function(req, res) {
 })
 
 
-
+module.exports = router;
 
