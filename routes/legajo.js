@@ -23,11 +23,30 @@ router.get('/legajoEXP/:Expediente', function(req,res,next){
     })
 })
 
-router.post('/legajo', function(req,res,next){
-    var dependencia = new Legajos(req.body);
-    dependencia.save(function(err, legajos){
+router.get('/validlegajo/:NroLegajo', function(req,res,next){
+    Legajos.find({NroLegajo: req.body.NroLegajo},function(err, legajos){
         if (err) { return next(err) }
-        res.json(legajos);
+        if(legajos){
+            res.send({message:'El legajo ya existe!'})
+        }
+    })
+})
+
+router.post('/legajo', function(req,res,next){
+    var legajo = new Legajos(req.body);
+    Legajos.find({NroLegajo: req.body.NroLegajo},function(err,legajo1){
+        if (err) { return next(err) } 
+        else {
+            console.log(legajo1)
+            if(legajo1 != []){
+                return res.send({message:'El legajo ya existe!'});
+            } else if(legajo1 == []){
+                legajo.save(function(err, legajos){
+                    if (err) { return next(err) }
+                    res.json(legajos);
+                })
+            }
+        }
     })
 })
 
@@ -52,7 +71,6 @@ router.put('/legajo/:id', function(req, res) {
         legajo.Tomos = req.body.Tomos;
         legajo.save(function(err) {
             if (err) { res.send(err) }
-
             res.json(legajo);
         })
     })
