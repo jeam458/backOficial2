@@ -16,11 +16,19 @@ router.get('/expedientes', function(req,res,next){
 })
 
 
-router.get('/expediente/:Tipo', function(req,res,next){
-    Expedientes.find({Tipo:req.params.Tipo},function(err, expedientes){
+router.get('/expediente/:parte', function(req,res,next){
+    //var datos = Expedientes.find().where('Partes').in(req.params.parte).exec();
+    var parte = req.params.parte
+    var id = mongoose.Types.ObjectId(parte)
+    Expedientes.find( { Partes: id},function(err, expedientes){
         if (err) { return next(err) }
         res.json(expedientes)
     })
+})
+
+router.get('/expedientesarray',function(req,res,next){
+    console.log(req.body.partes)
+    //var datos = Expedientes.find().where('Partes').in(req.body.partes).exec();
 })
 
 router.post('/expediente', function(req,res,next){
