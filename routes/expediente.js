@@ -15,6 +15,14 @@ router.get('/expedientes', function(req,res,next){
     })
 })
 
+router.get('/expedientedatos/:datos',function(req,res,next){
+    var datos = req.params.datos.split(' ');
+    Expedientes.find({$or:[{Expediente: {"$regex": datos[0], "$options": "i"}}]},function(err, expedientes){
+        if (err) { return next(err) }
+        res.json(expedientes)
+    })
+})
+
 
 router.get('/expediente/:parte', function(req,res,next){
     //var datos = Expedientes.find().where('Partes').in(req.params.parte).exec();

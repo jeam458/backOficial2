@@ -22,17 +22,14 @@ router.get('/persona/:Documento', function(req,res,next){
 })
 
 router.get('/personadatos/:datos', function(req,res,next){
-    var cadena = req.params.datos.toString();
-    console.log(cadena);
     var datos = req.params.datos.split(' ');
-    console.log(datos)
     if(datos.length === 1){
         Personas.find( {$or:[{Nombre: {"$regex": datos[0], "$options": "i"}},{ ApellidoM: {"$regex": datos[0], "$options": "i"}},{ ApellidoP: {"$regex": datos[0], "$options": "i"}}]} , function(err, personas){
             if (err) { return next(err) }
         res.json(personas)
         })
     } else if(datos.length === 2){
-        Personas.find( {$or:[{ ApellidoM: {"$regex": datos[1], "$options": "i"}},{ ApellidoP: {"$regex": datos[1], "$options": "i"}}], $and: [{Nombre: {"$regex": datos[0], "$options": "i"}}]} , function(err, personas){
+        Personas.find( {$or:[{ ApellidoM: {"$regex": datos[1], "$options": "i"}},{ ApellidoP: {"$regex": datos[0], "$options": "i"}},{Nombre: {"$regex": datos[0], "$options": "i"}}]} , function(err, personas){
             if (err) { return next(err) }
         res.json(personas)
         })
